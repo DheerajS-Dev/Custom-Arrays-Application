@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Array</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        #container {
+            width: 90%;
+            margin: auto;
+            margin-top: 20px;
+            text-align: center;
+        }
+        h1{
+            font-size: 45px;
+            font-weight: bold;
+            color: teal;
+            font-family: Arial, Helvetica, sans-serif, Geneva, Tahoma, sans-serif ;
+        }
+        h3{
+            font-size: 25px;
+            margin-top: 10px;
+            font-family: cursive;
+        }
+        span{
+            color: blue;
+        }
+        input{
+            border: 1px solid grey;
+            width: 40%;
+            height: 40px;
+            margin-top: 15px;
+            padding-left: 15px;
+            border-radius: 5px;
+        }
+        #functions{
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            grid-template-rows: repeat(auto);
+            gap: 20px 0px;
+            margin-top: 30px;
+        }
+        button{
+            border: 1px solid grey;
+            width: 150px;
+            height: 25px;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: rgb(78, 78, 253);
+        }
+        #functions>div:first-child>button{
+            background-color: green;
+        }
+        #functions>div:last-child>button{
+            background-color: red;
+        }
+        #results{
+            width: 100%;
+            height: auto;
+            margin-top: 30px;
+            padding: 10px;
+            background-color: grey;
+        }
+        h2{
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            margin-bottom: 10px;
+        }
+        #result>p{
+            color: white;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Custom Array Application</h1>
+        <h3>Build By :- <span>Dheeraj Singh</span></h3>
+        <input type="text" id="input" placeholder="Enter Elements[Ex.-1,2,3,4,5....]">
+        <div id="functions">
+            <div><button id="create">Create Array</button></div>
+            <div><button id="push">Push()</button></div>
+            <div><button id="pop">Pop()</button></div>
+            <div><button id="top">Top()</button></div>
+            <div><button id="print">Print Array</button></div>
+            <div><button id="reverse">Print Reverse Array</button></div>
+            <div><button id="size">Check Size</button></div>
+            <div><button id="remove">Remove Array</button></div>
+        </div>
+        <div id="results">
+            <h2>Your Results Will shown here</h2>
+            <p id="result"></p>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+
+    class createArray{
+        constructor(){
+            this.arr = [];
+            this.length = 0 ;
+
+            Object.defineProperty(this, "length",{
+            value:0,
+            writable :true ,
+            enumerable : false ,
+            })
+            Object.defineProperty(this, "arr",{
+            value:0,
+            writable :true ,
+            enumerable : false ,
+            })
+        }
+
+        puush(data){
+            this[this.length] = data ;
+            this.length++ ;
+        }
+
+        poop(){
+            delete this[this.length-1] ;
+            this.length-- ;
+        }
+
+        top(){
+            return this[this.length-1] ;
+        }
+
+        print(){
+            return this ;
+        }
+
+        reverse(){
+            return this ;
+        }
+
+        sizeFunction(){
+            return this.length;
+        }
+    }
+
+    var array = new createArray() ;
+
+    let newFunction = () => {
+        let input = document.getElementById("input").value ;
+        if(input == ""){
+            return ;
+        }else{
+            input = input.trim().split(",") ;
+            for(var i = 0 ; i <input.length ; i++) {
+                if(input[i]!=="," || input[i]!==""){
+                    array.puush(input[i]) ;
+                }
+            }
+            document.getElementById("input").value = null ;
+        }
+    }
+    document.getElementById("create").addEventListener("click",newFunction) ;
+
+    let pushFunction = () => {
+        let input = document.getElementById("input").value ;
+        if(input == ""){
+            return ;
+        }else{
+            input = input.trim().split(",") ;
+            array.puush(input[0]) ;
+            document.getElementById("input").value = null ;
+        }
+    }
+    document.getElementById("push").addEventListener("click",pushFunction) ;
+
+    let popFunction = () =>{
+        array.poop() ;
+    }
+    document.getElementById("pop").addEventListener("click",popFunction) ;
+
+    let topFunction = () => {
+        let top = array.top() ;
+        const p = document.createElement('p');
+        p.innerText = `${top}` ;
+        document.getElementById("result").append(p) ;
+    }
+    document.getElementById("top").addEventListener("click",topFunction) ;
+
+    let  printFunction = ()=>{
+        let print = array.print() ;
+        const p = document.createElement('p');
+        p.innerText = `[${Object.values(print)}]` ;
+        console.log(print) ;
+        document.getElementById("result").append(p) ;
+    }
+    document.getElementById("print").addEventListener("click",printFunction) ;
+
+    let  reverseFunction = ()=>{
+        let reverse = array.reverse() ;
+        array = Object.values(reverse) ;
+        let arr = [] ;
+        for(let i=array.length-1; i>=0; i--){
+            arr.push(array[i]) ;
+        }
+        const p = document.createElement('p');
+        p.innerText = `[${arr}]` ;
+        document.getElementById("result").append(p) ;
+    }
+    document.getElementById("reverse").addEventListener("click",reverseFunction) ;
+
+    let sizeFunction = ()=>{
+        let size = array.sizeFunction() ;
+        const p = document.createElement('p');
+        p.innerText = `${size}` ;
+        document.getElementById("result").append(p) ;
+    }
+    document.getElementById("size").addEventListener("click",sizeFunction) ;
+
+    let removeFunction = ()=>{
+        document.getElementById("result").innerHTML = null ;
+        window.location.reload() ;
+    }
+    document.getElementById("remove").addEventListener("click",removeFunction) ;
+</script>
